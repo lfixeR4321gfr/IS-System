@@ -1,0 +1,12 @@
+
+
+
+<h2>Booking for {{ tour.name }}</h2>
+<form method="post">{% csrf_token %}
+    Number of People: <input type="number" name="number_of_people" min="1"><br>
+    <input type="submit" value="Book Now">
+</form>
+{% for message in messages %}
+<p style="color:red;">{{ message }}</p>
+{% endfor %}
+<a href="{% url 'tour_list' %}">Back to Tours</a>
