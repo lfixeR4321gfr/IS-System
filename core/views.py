@@ -1,5 +1,152 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import UserRegisterForm
+from .models import Tour, Booking
+from django.contrib.auth.models import User
+
+# -----------------------------
+# Home page
+# -----------------------------
+def home(request):
+    return render(request, 'core/home.html')
+
+# -----------------------------
+# Registration
+# -----------------------------
+def register_view(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
+            messages.success(request, 'Registration successful! You can now log in.')
+            return redirect('login')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'core/register.html', {'form': form})
+
+# -----------------------------
+# Login
+# -----------------------------
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            user_obj = User.objects.get(email=email)
+            user = authenticate(request, username=user_obj.username, password=password)
+            if user:
+                login(request, user)
+                messages.success(request, f'Login successful! Welcome {user.first_name}')
+                return redirect('booking_options')
+            else:
+                messages.error(request, 'Password sio sahihi.')
+        except User.DoesNotExist:
+            messages.error(request, 'Email haijasajiliwa.')
+
+    return render(request, 'core/login.html')
+
+# -----------------------------
+# Logout
+# -----------------------------
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+# -----------------------------
+# Booking options - show all tours
+# -----------------------------
+@login_required
+def booking_options(request):
+    tours = Tour.objects.all()
+    return render(request, 'core/booking_options.html', {'tours': tours})
+
+# -----------------------------
+# Book a tour
+# -----------------------------
+@login_required
+def booking_view(request, tour_id):
+    tour = get_object_or_404(Tour, id=tour_id)
+    if request.method == 'POST':
+        Booking.objects.create(user=request.user, tour=tour)
+        messages.success(request, f'Booking confirmed for {tour.name}!')
+        return redirect('booking_options')
+    return render(request, 'core/booking.html', {'tour': tour})
+
+# -----------------------------
+# Dashboard for user bookings
+# -----------------------------
+@login_required
+def dashboard(request):
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request, 'core/dashboard.html', {'bookings': bookings})
 
 
+def register_view(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email tayari imesajiliwa')
+            return redirect('register')
+
+        username = email.split('@')[0]
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+
+        messages.success(request, 'Account created successfully, login now')
+        return redirect('login')
+
+    return render(request, 'core/register.html')
+    #######################################################
+
+
+
+
+
+    def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            user_obj = User.objects.get(email=email)
+            user = authenticate(
+                request,
+                username=user_obj.username,
+                password=password
+            )
+
+            if user:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, 'Password sio sahihi')
+
+        except User.DoesNotExist:
+            messages.error(request, 'Account haipo, tafadhali jisajili kwanza')
+            return redirect('register')
+
+    return render(request, 'core/login.html')
+
+
+
+
+
+"""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -104,7 +251,7 @@ def dashboard(request):
 
 
 
-
+"""
 
 
 

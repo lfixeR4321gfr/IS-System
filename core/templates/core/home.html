@@ -1,3 +1,14 @@
+<!--<h1>Welcome to Oceanic Tour Booking</h1>
+<a href="{% url 'register' %}">Register</a> | 
+<a href="{% url 'login' %}">Login</a> | 
+<a href="{% url 'booking_options' %}">View Tours</a>-->
+
+
+
+
+
+
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -7,7 +18,8 @@
 
      <h2>CLIENT </h2>
     <a href="{% url 'login'%}">LOG IN</a>
-    <!--<a href="{% url 'register' %}">register</a> -->
+    <a href="{% url 'register' %}">register</a> 
+    <a href="{% url 'booking_options' %}">View Tours</a>
     <title>Oceanic Tour Booking System</title>
     <style>
         body {
@@ -147,5 +159,7 @@ function showSlides() {
 
 
 
+
 </body>
 </html>
+

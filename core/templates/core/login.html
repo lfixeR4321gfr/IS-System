@@ -1,36 +1,24 @@
 
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-    <h2>Client Login</h2>
-
-
-
-
-
 
 <h2>Login</h2>
-<form method="post">{% csrf_token %}
-    Username: <input type="text" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <input type="submit" value="Login">
+<form method="POST">
+    {% csrf_token %}
+    <label>Email:</label>
+    <input type="email" name="email" required><br>
+    <label>Password:</label>
+    <input type="password" name="password" required><br>
+    <button type="submit">Login</button>
 </form>
-{% for message in messages %}
-<p style="color:red;">{{ message }}</p>
-{% endfor %}
-
- <a href="{% url 'home' %}">Back Home</a>
-</body>
-</html>
-
--->
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 
-
-
+<!--
 
 <!DOCTYPE html>
 <html lang="en">
@@ -114,3 +102,4 @@
 
 
 
+-->

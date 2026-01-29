@@ -1,3 +1,23 @@
+
+
+<h2>Available Tours</h2>
+
+{% for tour in tours %}
+    <p>
+        {{ tour.name }} - {{ tour.price }}
+        <a href="{% url 'book_tour' tour.id %}">Book Tour</a>
+    </p>
+{% empty %}
+    <p>No tours available</p>
+{% endfor %}
+
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
+
+
+
+
 <!--
 
 
