@@ -1,0 +1,48 @@
+
+
+<h2>Available Tours</h2>
+
+{% for tour in tours %}
+    <p>
+        {{ tour.name }} - {{ tour.price }}
+        <a href="{% url 'book_tour' tour.id %}">Book Tour</a>
+    </p>
+{% empty %}
+    <p>No tours available</p>
+{% endfor %}
+
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
+
+
+
+
+<!--
+
+
+<h2>Available Tours</h2>
+<ul>
+{% for tour in tours %}
+    <li>
+        <strong>{{ tour.name }}</strong> - ${{ tour.price }} - Duration: {{ tour.duration_days }} days
+        <a href="{% url 'booking' tour.id %}">Book</a>
+    </li>
+{% endfor %}
+</ul>
+<a href="{% url 'logout' %}">Logout</a>
+
+
+
+
+<h1>Orodha ya Tours</h1>
+<ul>
+  {% for tour in tours %}
+    <li>{{ tour.name }} - {{ tour.price }} USD</li>
+  {% empty %}
+    <li>Hakuna tours zilizopo.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'home' %}">Rudi Home</a>
+
+-->

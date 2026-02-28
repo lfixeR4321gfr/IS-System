@@ -1,0 +1,39 @@
+
+<ul>
+    {% for tour in tours %}
+        <li>{{ tour.name }} - {{ tour.price }} USD
+            <form method="POST" action="{% url 'book_tour' tour.id %}">
+                {% csrf_token %}
+                <button type="submit">Book Now</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'dashboard' %}">My Bookings</a> | 
+<a href="{% url 'logout' %}">Logout</a>
+
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
+<!--
+<h2>Available Tours</h2>
+<ul>
+    {% for tour in tours %}
+        <li>{{ tour.name }} - {{ tour.price }} USD
+            <form method="POST" action="{% url 'book_tour' tour.id %}">
+                {% csrf_token %}
+                <button type="submit">Book Now</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'dashboard' %}">My Bookings</a> | 
+<a href="{% url 'logout' %}">Logout</a>
+-->
